@@ -29,7 +29,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-
+#include "g711mit.c"
 #include <pulse/simple.h>
 #include <pulse/error.h>
 #include <pulse/gccmacro.h>
@@ -102,7 +102,7 @@ int main(int argc,char* argv[])
     
      static const pa_sample_spec ss = {
         .format = PA_SAMPLE_S16LE,
-        .rate = 44100,
+        .rate = 8000,
         .channels = 2
     };
     pa_simple *s1 = NULL;
@@ -177,8 +177,8 @@ int main(int argc,char* argv[])
         fprintf(stderr, __FILE__": pa_simple_new() failed: %s\n", pa_strerror(error));
         goto finish;
     }
-
-uint8_t buf[BUFSIZE];
+unsigned char buf[BUFSIZE];
+short buf2[BUFSIZE];
         ssize_t r;
 struct itimerspec new_value;
     int max_exp, fd2;
@@ -238,10 +238,14 @@ while(1)
     	}
 	
 
-
+	for(int i=0;i<BUFSIZE;i++)
+	{
+	buf2[i]=alaw2linear(buf[i]);
+	//printf("decoding %d %d %d\n",i,buf2[i],buf3[i]);
+	}
 
         /* ... and play it */
-        if (pa_simple_write(s1, buf, sizeof(buf), &error) < 0) {
+        if (pa_simple_write(s1, buf2, sizeof(buf2), &error) < 0) {
             fprintf(stderr, __FILE__": pa_simple_write() failed: %s\n", pa_strerror(error));
             goto finish;
         }

@@ -26,7 +26,7 @@
 #include <errno.h>
 #include <sys/timerfd.h>
 #include <time.h>
-
+#include "g711mit.c"
 #include <stdlib.h>
 
 #include <stdint.h> 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     char s[INET6_ADDRSTRLEN];
     static const pa_sample_spec ss = {
         .format = PA_SAMPLE_S16LE,
-        .rate = 44100,
+        .rate = 8000,
         .channels = 2
     };
     pa_simple *s1 = NULL;
@@ -123,7 +123,8 @@ int main(int argc, char *argv[])
     }
     printf("creating recording stream\n");
 	
-     uint8_t buf[BUFSIZE];
+     short buf[BUFSIZE];
+	 unsigned char buf2[BUFSIZE];
 
 
     if (argc != 3) {//check for format of arguments
@@ -191,8 +192,10 @@ int main(int argc, char *argv[])
             	fprintf(stderr, __FILE__": pa_simple_read() failed: %s\n", pa_strerror(error));
             	goto finish;
         	}
-		
-		if (send(sockfd, buf, sizeof(buf), 0) == -1)//send data to server
+		for(int i=0;i<BUFSIZE;i++)
+		{
+		buf2[i]=linear2alaw(buf[i]);}
+		if (send(sockfd, buf2, sizeof(buf2), 0) == -1)//send data to server
 		      {  perror("send");
 			continue;
 		    close(sockfd);
