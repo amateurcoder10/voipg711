@@ -1,4 +1,4 @@
-//real time VoIP phone---client side
+//real time VoIP phone---client side with g711 integration
 //using pulseaudio APIs
 
 #include <stdio.h>
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
         	}
 		for(int i=0;i<BUFSIZE;i++)
 		{
-		buf2[i]=linear2alaw(buf[i]);}
+		buf2[i]=linear2alaw(buf[i]);}//encode using a law
 		if (send(sockfd, buf2, sizeof(buf2), 0) == -1)//send data to server
 		      {  perror("send");
 			continue;

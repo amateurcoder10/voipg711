@@ -1,4 +1,4 @@
-//real time VoIP phone--server side
+//real time VoIP phone--server side with g711 integration
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -240,7 +240,7 @@ while(1)
 
 	for(int i=0;i<BUFSIZE;i++)
 	{
-	buf2[i]=alaw2linear(buf[i]);
+	buf2[i]=alaw2linear(buf[i]);//decode using a law
 	//printf("decoding %d %d %d\n",i,buf2[i],buf3[i]);
 	}
 
