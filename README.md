@@ -1,1 +1,2 @@
-# this uses the g711 codec in order to encode and decode audio and then transmit using VoIP
+# VoIP phone with g711 integrated for encoding and decoding.
+chatcl1.c and chatserv.c are the client and server socket programs respectively.
