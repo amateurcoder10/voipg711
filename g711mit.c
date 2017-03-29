@@ -91,7 +91,7 @@ search(val, table, size)
 }
 
 /* see libst.h */
-#ifdef	SUPERCEDED
+//#ifdef	SUPERCEDED
 
 /*
  * linear2alaw() - Convert a 16-bit linear PCM value to 8-bit A-law
@@ -265,7 +265,7 @@ ulaw2linear(u_val)
 	return ((u_val & SIGN_BIT) ? (BIAS - t) : (t - BIAS));
 }
 
-#endif
+//#endif
 
 /* A-law to u-law conversion */
 unsigned char
